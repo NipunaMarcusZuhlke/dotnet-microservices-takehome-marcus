@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{9CB5D837-2F59-424A-968B-3868EA5816C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessor", "OrderProcessor\OrderProcessor.csproj", "{18B7AB10-4055-43E9-96A9-394E20E1F9B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessor.UnitTest", "OrderProcessor.UnitTest\OrderProcessor.UnitTest.csproj", "{49469F06-D1A6-4DC3-9B00-E4F341137DB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CB5D837-2F59-424A-968B-3868EA5816C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB5D837-2F59-424A-968B-3868EA5816C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB5D837-2F59-424A-968B-3868EA5816C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB5D837-2F59-424A-968B-3868EA5816C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B7AB10-4055-43E9-96A9-394E20E1F9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B7AB10-4055-43E9-96A9-394E20E1F9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B7AB10-4055-43E9-96A9-394E20E1F9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B7AB10-4055-43E9-96A9-394E20E1F9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49469F06-D1A6-4DC3-9B00-E4F341137DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49469F06-D1A6-4DC3-9B00-E4F341137DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49469F06-D1A6-4DC3-9B00-E4F341137DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49469F06-D1A6-4DC3-9B00-E4F341137DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
