@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OrderProcessor.NotificationService.Application;
+using OrderProcessor.Middleware;
 using OrderProcessor.NotificationService.Application.Dtos;
+using OrderProcessor.NotificationService.Application.Services;
 
 namespace OrderProcessor.NotificationService.Endpoints;
 
@@ -9,12 +10,12 @@ namespace OrderProcessor.NotificationService.Endpoints;
 public class NotificationsController(INotificationsService notificationsService): ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType(typeof(NotificationDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType( StatusCodes.Status500InternalServerError)]
-    public IActionResult GetAllNotifications()
+    [EndpointDescription("Get all notifications which are successfully processed")]
+    [ProducesResponseType(typeof(NotificationResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiError), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetAllNotifications()
     {
-        var notifications = notificationsService.GetAllNotifications();
+        var notifications = await notificationsService.GetAllNotificationsAsync();
         return Ok(notifications);
     }
 }

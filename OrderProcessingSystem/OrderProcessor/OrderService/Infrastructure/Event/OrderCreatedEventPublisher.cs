@@ -1,13 +1,26 @@
 ﻿using EventBus;
-using OrderProcessor.OrderService.Application;
+using OrderProcessor.OrderService.Application.Messaging;
 using OrderProcessor.SharedDomain.Events;
 
 namespace OrderProcessor.OrderService.Infrastructure.Event;
 
-public class OrderCreatedOrderCreatedEventPublisher(IEventBus eventBus): IOrderCreatedEventPublisher
+public class OrderCreatedOrderCreatedEventPublisher(
+    IEventBus eventBus,
+    ILogger<OrderCreatedOrderCreatedEventPublisher> logger) : IOrderCreatedEventPublisher
 {
-    public void Publish(OrderCreatedEvent orderCreatedEvent)
+    public async Task PublishAsync(OrderCreatedEvent orderCreatedEvent)
     {
-        eventBus.Publish(orderCreatedEvent);
+        try
+        {
+            await eventBus.PublishAsync(orderCreatedEvent);
+            
+            logger.LogInformation("Order created event successfully sent for order ID: {OrderId}", orderCreatedEvent.OrderId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Order create event failed to send for order ID: {OrderId}",
+                orderCreatedEvent.OrderId);
+            throw;
+        }
     }
 }

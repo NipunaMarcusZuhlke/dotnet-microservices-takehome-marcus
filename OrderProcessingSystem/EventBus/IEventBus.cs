@@ -2,6 +2,6 @@
 
 public interface IEventBus
 {
-    void Publish<TEvent>(TEvent message);
-    void Subscribe<TEvent>(Action<TEvent> handler);
+    Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default);
+    void Subscribe<TEvent>(IEventHandler<TEvent> handler);
 }

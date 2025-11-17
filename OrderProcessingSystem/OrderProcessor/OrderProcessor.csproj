@@ -8,7 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="12.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.22"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+        <PackageReference Include="NSwag.AspNetCore" Version="14.6.2" />
+        <PackageReference Include="NSwag.MSBuild" Version="14.6.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
@@ -25,5 +32,9 @@
     <ItemGroup>
       <Folder Include="SharedDomain\" />
     </ItemGroup>
+
+    <Target Name="NSwag" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
+        <Exec EnvironmentVariables="ASPNETCORE_ENVIRONMENT=NSwag" Command="$(NSwagExe_Net80) aspnetcore2openapi /configuration:$(Configuration) /nobuild:true /project:OrderProcessor.csproj /output:openapi.yaml" />
+    </Target>
 
 </Project>

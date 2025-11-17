@@ -1,17 +1,9 @@
 using EventBus;
-using OrderProcessor.NotificationService.Application;
-using OrderProcessor.NotificationService.Infrastructure.Event;
-using OrderProcessor.NotificationService.Infrastructure.Persistance;
-using OrderProcessor.NotificationService.Infrastructure.Repositories;
-using OrderProcessor.OrderService.Application;
-using OrderProcessor.OrderService.Infrastructure.Event;
-using OrderProcessor.OrderService.Infrastructure.Persistance;
-using OrderProcessor.OrderService.Infrastructure.Repositories;
-using OrderProcessor.PaymentService.Application;
-using OrderProcessor.PaymentService.Infrastructure.Event.Consumer;
-using OrderProcessor.PaymentService.Infrastructure.Event.Publisher;
-using OrderProcessor.PaymentService.Infrastructure.Persistance;
-using OrderProcessor.PaymentService.Infrastructure.Repositories;
+using OrderProcessor.Middleware;
+using OrderProcessor.NotificationService.Infrastructure;
+using OrderProcessor.OrderService.Infrastructure;
+using OrderProcessor.PaymentService.Infrastructure;
+using OrderProcessor.SharedDomain.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,31 +11,35 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
+builder.Services.AddSingleton<IEventBus, InMemoryChannelEventBus>();
 
-builder.Services.AddSingleton<IPaymentDataStore, InMemoryPaymentDataStore>();
-builder.Services.AddSingleton<IOrderDataStore, InMemoryOrderDataStore>();
-builder.Services.AddSingleton<INotificationDataStore, InMemoryNotificationDataStore>();
+builder.Services.RegisterOrderServiceDependencies();
+builder.Services.RegisterPaymentServiceDependencies();
+builder.Services.RegisterNotificationServiceDependencies();
 
-builder.Services.AddTransient<IOrderRepository, InMemoryOrderRepository>();
-builder.Services.AddTransient<IOrdersService, OrdersService>();
-builder.Services.AddTransient<IOrderCreatedEventPublisher, OrderCreatedOrderCreatedEventPublisher>();
-
-builder.Services.AddTransient<IPaymentsService, PaymentsService>();
-builder.Services.AddTransient<IPaymentRepository, InMemoryPaymentRepository>();
-builder.Services.AddTransient<IPaymentProcessor, PaymentProcessor>();
-builder.Services.AddTransient<IPaymentSucceededEventPublisher, PaymentSucceededEventPublisher>();
-
-builder.Services.AddTransient<INotificationsService, NotificationsService>();
-builder.Services.AddTransient<INotificationsRepository, InMemoryNotificationRepository>();
-builder.Services.AddTransient<INotificationProcessor, NotificationProcessor>();
+builder.Services.AddOpenApiDocument(options =>
+{
+    options.PostProcess = document =>
+    {
+        document.OpenApi = "3.1.0";
+        document.Info = new()
+        {
+            Version = "v1",
+            Title = "Order processing system",
+            Description = "The Order processing system that handles order creation, payment and notification",
+        };
+    };
+});
 
 var app = builder.Build();
 
 var provider = app.Services;
 var eventBus = provider.GetRequiredService<IEventBus>();
-PaymentEventSubscription.Register(eventBus, provider);
-NotificationEventSubscription.Register(eventBus, provider);
+
+eventBus.Subscribe(provider.GetRequiredService<IEventHandler<OrderCreatedEvent>>());
+eventBus.Subscribe(provider.GetRequiredService<IEventHandler<PaymentSucceededEvent>>());
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

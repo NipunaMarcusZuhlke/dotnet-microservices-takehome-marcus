@@ -1,29 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OrderProcessor.OrderService.Application;
+using OrderProcessor.Middleware;
 using OrderProcessor.OrderService.Application.Dtos;
+using OrderProcessor.OrderService.Application.Services;
+using OrderProcessor.OrderService.Application.Validators;
 
 namespace OrderProcessor.OrderService.Endpoints;
 
 [ApiController]
 [Route("api/orders")]
-public class OrdersController(IOrdersService ordersService) : ControllerBase
+public class OrdersController(IOrdersService ordersService, CreateOrderRequestDtoValidator createOrderRequestDtoValidator) : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [EndpointDescription("Create new order")]
+    [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult CreateOrder([FromBody] CreateOrderDto createOrderDto)
+    [ProducesResponseType(typeof(ApiError), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto createOrderRequestDto)
     {
-        ordersService.CreateOrder(createOrderDto);
-        return CreatedAtAction(nameof(GetAllOrders), null);
+        var validationResult = await createOrderRequestDtoValidator.ValidateAsync(createOrderRequestDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new ApiError(StatusCodes.Status400BadRequest.ToString(),
+                "Order request include invalid values",
+                validationResult.Errors.Select(e => e.ErrorMessage).ToList()));
+        }
+
+        var order = await ordersService.CreateOrderAsync(createOrderRequestDto);
+        return CreatedAtAction(nameof(GetOrderById), new { order.OrderId }, order);
+    }
+
+    [HttpGet("{orderId:guid}")]
+    [EndpointDescription("Get created order by given order id")]
+    [ProducesResponseType(typeof(List<OrderResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(List<OrderResponseDto>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiError), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetOrderById([FromRoute] Guid orderId)
+    {
+        var order = await ordersService.GetOrderByIdAsync(orderId);
+        return order is not null ? Ok(order) : NotFound();
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetAllOrders()
+    [EndpointDescription("Get all created orders")]
+    [ProducesResponseType(typeof(List<OrderResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiError), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetAllOrders()
     {
-        var orders = ordersService.GetAllOrders();
+        var orders = await ordersService.GetAllOrdersAsync();
         return Ok(orders);
     }
 }
