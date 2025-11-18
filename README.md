@@ -73,13 +73,27 @@ As shown in the diagram
 
 ## Design Decisions and Assumptions
   - Used Domain Driven Design to structure each microservice to separate to following layers.
+    
+    ![Event Flow](Docs/application_ddd_structure_dependency.jpg)
   
-    - endpoints - controllers
-    - application - services and handlers
-    - domain - entities and repository contracts
-    - infrastructure - external system integration and repository implementations
+    - endpoints
+      - contains controllers which uses application layer (services) to process or fetch data.
+      - This will only use application layer.
+    - application
+      - contains DTOs, services and message processors and publisher contract.
+      - this layer will contains implementation for the process orchestration such as saving information to database and publish the saved information as a event. 
+      - this will contain the message processor implementations and service implementations which will use domain and shared domain. 
+    - domain 
+      - contains entities and repository contracts
+      - This only contains the core business logics such as Entitie models and contracts for repositories.
+    - infrastructure
+      - contains external system integrations (DB Context) and repository implementations. 
+      - Infrastructure will use other layers such as application and domain to integrate external systems such as databases by implemeting the repository contract and publishing and subscribing logic for event bus.
 
   - Used EF Inmemory DB for easiness and cleanlyness of implementation and to keep the future extendability in mind.
+  - Extracted `OrderCreatedEvent` and `PaymentSucceededEvent` domain models to a shared domain as these are shared between services. In the future these can be put on to a different project to be used among different microservices without creating a dependency.
+  - Extracted out Even bus to a different stucture as it is also shared amoung eash service.
+  - Created a single middleware which is used to handle global exceptions for the `OrderProcessor` project and in the future as well this middleware implementation can be shared amoung microservices.
 
 ## Any known limitations and future improvements
 
