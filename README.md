@@ -68,6 +68,7 @@ Navigate to `.\OrderProcessingSystem` and then run `dotnet test` command
 
 ## Architecture Overview
 
+![Event Flow](Docs/architecture_overview.jpg)
 
   - Three Independent microservices with clear separation on endpoint, application, domain and infrastructure using Domain Driven Design to cleanly separate each layer.
   - Services communicating only using Events via In-Memory event bus to reduce any dependency.
