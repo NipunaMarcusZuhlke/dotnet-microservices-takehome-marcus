@@ -94,6 +94,7 @@ As shown in the diagram
   - Extracted `OrderCreatedEvent` and `PaymentSucceededEvent` domain models to a shared domain as these are shared between services. In the future these can be put on to a different project to be used among different microservices without creating a dependency.
   - Extracted out Even bus to a different stucture as it is also shared amoung eash service.
   - Created a single middleware which is used to handle global exceptions for the `OrderProcessor` project and in the future as well this middleware implementation can be shared amoung microservices.
+  - Added tests to cover only business logic such as services, mapping and event processing in payment and notification services and all the controllers. Other implementations such as repository and event bus are not covered in unit tests as they are using external system.
 
 ## Any known limitations and future improvements
 
