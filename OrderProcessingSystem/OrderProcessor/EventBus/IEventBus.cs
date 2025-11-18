@@ -1,4 +1,4 @@
-﻿namespace EventBus;
+﻿namespace OrderProcessor.EventBus;
 
 public interface IEventBus
 {

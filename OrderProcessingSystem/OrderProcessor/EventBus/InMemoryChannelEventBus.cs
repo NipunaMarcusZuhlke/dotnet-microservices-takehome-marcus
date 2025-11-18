@@ -1,8 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Channels;
-using Microsoft.Extensions.Logging;
 
-namespace EventBus;
+namespace OrderProcessor.EventBus;
 
 public class InMemoryChannelEventBus(ILogger<InMemoryChannelEventBus> logger) : IEventBus, IDisposable
 {

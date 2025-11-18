@@ -1,6 +1,4 @@
-﻿using OrderProcessor.PaymentService.Domain;
-
-namespace OrderProcessor.PaymentService.Application.Repositories;
+﻿namespace OrderProcessor.PaymentService.Domain.Repositories;
 
 public interface IPaymentRepository
 {

@@ -1,10 +1,10 @@
-﻿using EventBus;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderProcessor.EventBus;
 using OrderProcessor.NotificationService.Application.Messaging;
-using OrderProcessor.NotificationService.Application.Repositories;
 using OrderProcessor.NotificationService.Application.Services;
+using OrderProcessor.NotificationService.Domain.Repositories;
 using OrderProcessor.NotificationService.Infrastructure.Event;
-using OrderProcessor.NotificationService.Infrastructure.Persistance;
+using OrderProcessor.NotificationService.Infrastructure.Persistence;
 using OrderProcessor.NotificationService.Infrastructure.Repositories;
 using OrderProcessor.SharedDomain.Events;
 

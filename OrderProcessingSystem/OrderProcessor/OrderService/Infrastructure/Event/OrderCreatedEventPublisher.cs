@@ -1,4 +1,4 @@
-﻿using EventBus;
+﻿using OrderProcessor.EventBus;
 using OrderProcessor.OrderService.Application.Messaging;
 using OrderProcessor.SharedDomain.Events;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OrderProcessor.PaymentService.Application.Messaging;
-using OrderProcessor.PaymentService.Application.Repositories;
+using OrderProcessor.PaymentService.Domain.Repositories;
 using Shouldly;
 
 namespace OrderProcessor.UnitTest.PaymentService.Application.Messaging;

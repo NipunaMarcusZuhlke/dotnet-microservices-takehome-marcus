@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OrderProcessor.NotificationService.Application.Messaging;
-using OrderProcessor.NotificationService.Application.Repositories;
+using OrderProcessor.NotificationService.Domain.Repositories;
 using Shouldly;
 
 namespace OrderProcessor.UnitTest.NotificationsService.Application.Messaging;

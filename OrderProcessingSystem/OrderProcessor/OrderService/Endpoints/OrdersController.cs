@@ -2,13 +2,12 @@
 using OrderProcessor.Middleware;
 using OrderProcessor.OrderService.Application.Dtos;
 using OrderProcessor.OrderService.Application.Services;
-using OrderProcessor.OrderService.Application.Validators;
 
 namespace OrderProcessor.OrderService.Endpoints;
 
 [ApiController]
 [Route("api/orders")]
-public class OrdersController(IOrdersService ordersService, CreateOrderRequestDtoValidator createOrderRequestDtoValidator) : ControllerBase
+public class OrdersController(IOrdersService ordersService) : ControllerBase
 {
     [HttpPost]
     [EndpointDescription("Create new order")]
@@ -17,14 +16,6 @@ public class OrdersController(IOrdersService ordersService, CreateOrderRequestDt
     [ProducesResponseType(typeof(ApiError), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto createOrderRequestDto)
     {
-        var validationResult = await createOrderRequestDtoValidator.ValidateAsync(createOrderRequestDto);
-        if (!validationResult.IsValid)
-        {
-            return BadRequest(new ApiError(StatusCodes.Status400BadRequest.ToString(),
-                "Order request include invalid values",
-                validationResult.Errors.Select(e => e.ErrorMessage).ToList()));
-        }
-
         var order = await ordersService.CreateOrderAsync(createOrderRequestDto);
         return CreatedAtAction(nameof(GetOrderById), new { order.OrderId }, order);
     }

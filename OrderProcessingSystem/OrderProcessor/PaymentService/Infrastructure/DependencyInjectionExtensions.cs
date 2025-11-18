@@ -1,11 +1,11 @@
-﻿using EventBus;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderProcessor.EventBus;
 using OrderProcessor.PaymentService.Application.Messaging;
-using OrderProcessor.PaymentService.Application.Repositories;
 using OrderProcessor.PaymentService.Application.Services;
+using OrderProcessor.PaymentService.Domain.Repositories;
 using OrderProcessor.PaymentService.Infrastructure.Event.Consumer;
 using OrderProcessor.PaymentService.Infrastructure.Event.Publisher;
-using OrderProcessor.PaymentService.Infrastructure.Persistance;
+using OrderProcessor.PaymentService.Infrastructure.Persistence;
 using OrderProcessor.PaymentService.Infrastructure.Repositories;
 using OrderProcessor.SharedDomain.Events;
 

@@ -18,7 +18,7 @@ public class MapOrderToOrderCreatedEventTest
             Timestamp = DateTime.Now
         };
 
-        var result = MapOrderToOrderCreatedEvent.Map(order);
+        var result = MapOrderToOrderCreatedEvent.MapToOrderCreatedEvent(order);
         
         result.CustomerEmail.ShouldBe(order.CustomerEmail);
         result.Amount.ShouldBe(order.Amount);

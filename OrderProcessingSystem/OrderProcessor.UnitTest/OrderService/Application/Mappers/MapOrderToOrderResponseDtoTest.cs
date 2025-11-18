@@ -18,7 +18,7 @@ public class MapOrderToOrderResponseDtoTest
             Timestamp = DateTime.Now
         };
 
-        var result = MapOrderToOrderResponseDto.Map(order);
+        var result = MapOrderToOrderResponseDto.MapToOrderResponseDto(order);
         
         result.CustomerEmail.ShouldBe(order.CustomerEmail);
         result.Amount.ShouldBe(order.Amount);

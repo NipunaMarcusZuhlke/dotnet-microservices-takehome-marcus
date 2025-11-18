@@ -55,7 +55,7 @@ Navigate to `.\OrderProcessingSystem` and then run `dotnet test` command
 
 ## Architecture Overview
 
-  - Three Independent microservices with clear separation on endpoint, application, domain and infrastructure using layered architecture to cleanly separate each layer.
+  - Three Independent microservices with clear separation on endpoint, application, domain and infrastructure using Domain Driven Design to cleanly separate each layer.
   - Services communicating only using Events via in memory event bus to reduce any dependency.
   - All three services have three different storages (EF In Memory DBs) to separate the data storages as well and follow `Repository Pattern`. 
 
@@ -63,18 +63,23 @@ Navigate to `.\OrderProcessingSystem` and then run `dotnet test` command
 
 Event flow is as described below in the diagram.
 
-![Event Flow](Docs/order_system.jpg)
+![Event Flow](Docs/event_flow.jpg)
 
 As shown in the diagram
 
   - Orders service will receive order creation from a client and then validate the request and proceed to publish the `Order Created Event` with Order ID and other data.
   - Payments service will receive `Order Created Event` through the event bus and then proceed to process and then save the processed payment with Payment ID and order data. If all goes well proceed to publish the `Payment Succeeded Event` with Payment ID and other order related data.
-  - Notification service will receive `Payment Succeeded Event` through the event bus and then proceed to process and then save the notification with Notification ID and Payment Data.
+  - Notification service will receive `Payment Succeeded Event` through the event bus and then proceed to process and then save the notification with Notification ID and Payment Data and log.
 
 ## Design Decisions and Assumptions
-  - Went with layered architecture instead of vertical slicing to keep it simple with slices.
+  - Used Domain Driven Design to structure each microservice to separate to following layers.
+  
+    - endpoints - controllers
+    - application - services and handlers
+    - domain - entities and repository contracts
+    - infrastructure - external system integration and repository implementations
+
   - Used EF Inmemory DB for easiness and cleanlyness of implementation and to keep the future extendability in mind.
-  - All three modules (OrdersService, PaymentsService, and NotificationsService) are structured in a way to self contain all they need within the layered architecture.
 
 ## Any known limitations and future improvements
 

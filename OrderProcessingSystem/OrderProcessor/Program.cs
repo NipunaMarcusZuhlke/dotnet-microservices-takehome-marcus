@@ -1,4 +1,4 @@
-using EventBus;
+using OrderProcessor.EventBus;
 using OrderProcessor.Middleware;
 using OrderProcessor.NotificationService.Infrastructure;
 using OrderProcessor.OrderService.Infrastructure;

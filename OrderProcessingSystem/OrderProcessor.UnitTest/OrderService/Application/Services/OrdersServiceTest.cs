@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using OrderProcessor.OrderService.Application.Dtos;
 using OrderProcessor.OrderService.Application.Messaging;
-using OrderProcessor.OrderService.Application.Repositories;
 using OrderProcessor.OrderService.Application.Services;
 using OrderProcessor.OrderService.Domain;
+using OrderProcessor.OrderService.Domain.Repositories;
 using Shouldly;
 
 namespace OrderProcessor.UnitTest.OrderService.Application.Services;

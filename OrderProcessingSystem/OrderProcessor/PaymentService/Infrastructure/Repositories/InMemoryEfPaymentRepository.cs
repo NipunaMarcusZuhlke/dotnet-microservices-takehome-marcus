@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderProcessor.PaymentService.Application.Repositories;
 using OrderProcessor.PaymentService.Domain;
-using OrderProcessor.PaymentService.Infrastructure.Persistance;
+using OrderProcessor.PaymentService.Domain.Repositories;
+using OrderProcessor.PaymentService.Infrastructure.Persistence;
 
 namespace OrderProcessor.PaymentService.Infrastructure.Repositories;
 

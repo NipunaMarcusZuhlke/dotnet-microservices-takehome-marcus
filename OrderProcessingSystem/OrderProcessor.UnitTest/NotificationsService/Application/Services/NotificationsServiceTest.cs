@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
-using OrderProcessor.NotificationService.Application.Repositories;
 using OrderProcessor.NotificationService.Domain;
+using OrderProcessor.NotificationService.Domain.Repositories;
 using Shouldly;
 
 namespace OrderProcessor.UnitTest.NotificationsService.Application.Services;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderProcessor.OrderService.Domain;
 
-namespace OrderProcessor.OrderService.Infrastructure.Persistance;
+namespace OrderProcessor.OrderService.Infrastructure.Persistence;
 
 public class OrderDbContext(DbContextOptions<OrderDbContext> options) : DbContext(options)
 {

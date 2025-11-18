@@ -1,6 +1,6 @@
 ﻿using OrderProcessor.NotificationService.Application.Dtos;
 using OrderProcessor.NotificationService.Application.Mappers;
-using OrderProcessor.NotificationService.Application.Repositories;
+using OrderProcessor.NotificationService.Domain.Repositories;
 
 namespace OrderProcessor.NotificationService.Application.Services;
 
@@ -10,7 +10,7 @@ public class NotificationsService(INotificationsRepository notificationsReposito
     {
         var notifications = await notificationsRepository.GetAllNotificationsAsync();
         return notifications
-            .Select(MapNotificationToNotificationResponseDto.Map)
+            .Select(notification => notification.MapToNotificationResponseDto())
             .ToList();
     }
 }

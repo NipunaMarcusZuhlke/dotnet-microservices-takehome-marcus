@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderProcessor.NotificationService.Application.Repositories;
 using OrderProcessor.NotificationService.Domain;
-using OrderProcessor.NotificationService.Infrastructure.Persistance;
+using OrderProcessor.NotificationService.Domain.Repositories;
+using OrderProcessor.NotificationService.Infrastructure.Persistence;
 
 namespace OrderProcessor.NotificationService.Infrastructure.Repositories;
 

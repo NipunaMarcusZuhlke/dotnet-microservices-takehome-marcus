@@ -1,6 +1,6 @@
-﻿using OrderProcessor.NotificationService.Application.Repositories;
-using OrderProcessor.NotificationService.Application.Services;
+﻿using OrderProcessor.NotificationService.Application.Services;
 using OrderProcessor.NotificationService.Domain;
+using OrderProcessor.NotificationService.Domain.Repositories;
 
 namespace OrderProcessor.NotificationService.Application.Messaging;
 
@@ -24,11 +24,8 @@ public class NotificationProcessor(
             NotificationTimestamp = DateTime.Now
         };
         
-        // Simulating Notification Processing time.
-        await Task.Delay(500, cancellationToken);
+        await notificationsRepository.SaveNotificationAsync(notification);
         
         logger.LogInformation($"Notification Processed for orderId: {orderId} and paymentId: {paymentId}");
-
-        await notificationsRepository.SaveNotificationAsync(notification);
     }
 }

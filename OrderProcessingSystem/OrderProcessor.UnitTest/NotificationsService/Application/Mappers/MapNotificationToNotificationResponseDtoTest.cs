@@ -23,7 +23,7 @@ public class MapNotificationToNotificationResponseDtoTest
             NotificationTimestamp = DateTime.Now,
         };
 
-        var result = MapNotificationToNotificationResponseDto.Map(notification);
+        var result = MapNotificationToNotificationResponseDto.MapToNotificationResponseDto(notification);
         
         result.PaymentId.ShouldBe(paymentId);
         result.NotificationId.ShouldBe(notificationId);

@@ -5,7 +5,7 @@ namespace OrderProcessor.NotificationService.Application.Mappers;
 
 public static class MapNotificationToNotificationResponseDto
 {
-    public static NotificationResponseDto Map(Notification notification) => new NotificationResponseDto(
+    public static NotificationResponseDto MapToNotificationResponseDto(this Notification notification) => new(
         notification.NotificationId,
         notification.OrderId,
         notification.PaymentId,

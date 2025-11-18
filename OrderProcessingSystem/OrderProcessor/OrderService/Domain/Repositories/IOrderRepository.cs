@@ -1,6 +1,4 @@
-﻿using OrderProcessor.OrderService.Domain;
-
-namespace OrderProcessor.OrderService.Application.Repositories;
+﻿namespace OrderProcessor.OrderService.Domain.Repositories;
 
 public interface IOrderRepository
 {

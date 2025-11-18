@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using OrderProcessor.Middleware;
 using OrderProcessor.OrderService.Application.Dtos;
 using OrderProcessor.OrderService.Application.Services;
-using OrderProcessor.OrderService.Application.Validators;
 using OrderProcessor.OrderService.Endpoints;
 using Shouldly;
 
@@ -17,9 +15,8 @@ public class OrdersControllerTest
 
     public OrdersControllerTest()
     {
-        var createOrderDtoValidator = new CreateOrderRequestDtoValidator();
         _mockOrdersService = Substitute.For<IOrdersService>();
-        _ordersController = new OrdersController(_mockOrdersService, createOrderDtoValidator);
+        _ordersController = new OrdersController(_mockOrdersService);
     }
     
     [Fact]
@@ -50,24 +47,6 @@ public class OrdersControllerTest
         var createdAtActionResult = (CreatedAtActionResult)result;
         createdAtActionResult.StatusCode.ShouldBe(StatusCodes.Status201Created);
         createdAtActionResult.Value.ShouldBe(createdOrderDto);
-    }
-    
-    [Fact]
-    public async Task GivenInValidValuesForOrder_WhenCreateOrder_ReturnsBadRequest_WithErrors()
-    {
-        var order = new CreateOrderRequestDto((decimal)89.09, "sample");
-        var createdOrderDto = new OrderResponseDto(Guid.NewGuid(), (decimal)89.09, "sample", DateTime.Now);
-        _mockOrdersService.CreateOrderAsync(order).Returns(createdOrderDto);
-
-        var result = await _ordersController.CreateOrder(order);
-
-        result.ShouldBeOfType<BadRequestObjectResult>();
-        var badRequestResult = (BadRequestObjectResult)result;
-        badRequestResult.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
-        badRequestResult.Value.ShouldBeOfType(typeof(ApiError));
-        var apiError = (ApiError)badRequestResult.Value;
-        apiError.Message.ShouldBe("Order request include invalid values");
-        apiError.ErrorDetails[0].ShouldBe("Invalid Customer Email");
     }
     
     [Fact]

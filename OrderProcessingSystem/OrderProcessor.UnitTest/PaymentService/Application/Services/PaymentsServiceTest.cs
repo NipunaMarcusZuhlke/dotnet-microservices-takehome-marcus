@@ -1,7 +1,7 @@
 ﻿using NSubstitute;
-using OrderProcessor.PaymentService.Application.Repositories;
 using OrderProcessor.PaymentService.Application.Services;
 using OrderProcessor.PaymentService.Domain;
+using OrderProcessor.PaymentService.Domain.Repositories;
 using Shouldly;
 
 namespace OrderProcessor.UnitTest.PaymentService.Application.Services;

@@ -1,6 +1,6 @@
 ﻿using OrderProcessor.PaymentService.Application.Dtos;
 using OrderProcessor.PaymentService.Application.Mappers;
-using OrderProcessor.PaymentService.Application.Repositories;
+using OrderProcessor.PaymentService.Domain.Repositories;
 
 namespace OrderProcessor.PaymentService.Application.Services;
 

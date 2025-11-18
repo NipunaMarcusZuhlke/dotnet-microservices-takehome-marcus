@@ -1,6 +1,6 @@
 ﻿using OrderProcessor.PaymentService.Application.Mappers;
-using OrderProcessor.PaymentService.Application.Repositories;
 using OrderProcessor.PaymentService.Domain;
+using OrderProcessor.PaymentService.Domain.Repositories;
 
 namespace OrderProcessor.PaymentService.Application.Messaging;
 
@@ -21,9 +21,6 @@ public class PaymentProcessor(
             PaymentId = Guid.NewGuid(),
             Timestamp = DateTime.Now,
         };
-        
-        // Simulating Payment Processing time.
-        await Task.Delay(500, cancellationToken);
 
         await paymentRepository.SaveProcessedPaymentAsync(payment);
 

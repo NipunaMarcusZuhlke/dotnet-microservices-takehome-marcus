@@ -160,10 +160,6 @@ components:
           type: string
         message:
           type: string
-        errorDetails:
-          type: array
-          items:
-            type: string
     OrderResponseDto:
       type: object
       additionalProperties: false

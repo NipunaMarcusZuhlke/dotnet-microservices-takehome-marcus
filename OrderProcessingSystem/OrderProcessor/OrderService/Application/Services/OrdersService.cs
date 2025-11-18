@@ -1,8 +1,8 @@
 ﻿using OrderProcessor.OrderService.Application.Dtos;
 using OrderProcessor.OrderService.Application.Mappers;
 using OrderProcessor.OrderService.Application.Messaging;
-using OrderProcessor.OrderService.Application.Repositories;
 using OrderProcessor.OrderService.Domain;
+using OrderProcessor.OrderService.Domain.Repositories;
 
 namespace OrderProcessor.OrderService.Application.Services;
 
@@ -20,20 +20,20 @@ public class OrdersService(IOrderRepository orderRepository, IOrderCreatedEventP
         
         await orderRepository.CreateOrderAsync(order);
         
-        await orderCreatedEventPublisher.PublishAsync(MapOrderToOrderCreatedEvent.Map(order));
+        await orderCreatedEventPublisher.PublishAsync(order.MapToOrderCreatedEvent());
 
-        return MapOrderToOrderResponseDto.Map(order);
+        return order.MapToOrderResponseDto();
     }
 
     public async Task<List<OrderResponseDto>> GetAllOrdersAsync()
     {
         var orders = await orderRepository.GetAllOrdersAsync();
-        return orders.Select(MapOrderToOrderResponseDto.Map).ToList();
+        return orders.Select(order => order.MapToOrderResponseDto()).ToList();
     }
 
     public async Task<OrderResponseDto?> GetOrderByIdAsync(Guid orderId)
     {
         var order = await orderRepository.GetOrderByIdAsync(orderId);
-        return order == null ? null : MapOrderToOrderResponseDto.Map(order);
+        return order?.MapToOrderResponseDto();
     }
 }

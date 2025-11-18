@@ -1,6 +1,4 @@
-﻿using OrderProcessor.NotificationService.Domain;
-
-namespace OrderProcessor.NotificationService.Application.Repositories;
+﻿namespace OrderProcessor.NotificationService.Domain.Repositories;
 
 public interface INotificationsRepository
 {
